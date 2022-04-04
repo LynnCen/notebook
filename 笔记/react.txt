@@ -1,0 +1,23 @@
+react组件的 render 方法
+
+这个 render 方法必须要返回一个 JSX 元素。
+必须要用一个外层的 JSX 元素把所有内容包裹起来,返回并列多个 JSX 元素是不合法的.
+错误的写法：
+
+render () {
+return (
+<div>第一个</div>
+<div>第二个</div>
+)
+}
+正确的写法：
+
+render () {
+return (
+<div>
+<div>第一个</div>
+<div>第二个</div>
+</div>
+)
+}
+
