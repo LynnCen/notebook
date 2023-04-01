@@ -1,5 +1,6 @@
 # Git
 
+https://gitmoji.dev/
 回退到指定版本：
 
 git reset --hard 139dcfaa558e3276b30b6b2e5cbbb9c00bbdca96
