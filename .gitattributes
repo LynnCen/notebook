@@ -1,2 +1,5 @@
 * text=auto
 *.js linguist-language=javascript
+计算机基础/⚙️计算机组成原理.xmind filter=lfs diff=lfs merge=lfs -text
+计算机基础/💡[[:space:]]数据结构.xmind filter=lfs diff=lfs merge=lfs -text
+计算机基础/🖥操作系统.xmind filter=lfs diff=lfs merge=lfs -text
