@@ -1,5 +1,6 @@
 # Git
 
+文档：https://www.w3cschool.cn/git/git-basic-operations.html
 https://gitmoji.dev/
 回退到指定版本：
 
@@ -25,4 +26,13 @@ git status
 
 git remote show origin
 
-git commit -m ''
+git commit -m '' 提交信息
+
+### 分支管理
+
+查看远程分支 ` git branch -a`
+查看本地分支 ` git branch`
+创建分支: `git branch (brachname) `
+切换分支：` git checkout (brachname)`
+合并分支命令 ` git merge`
+删除分支 ` git branch -d (branchname)`
