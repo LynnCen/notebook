@@ -36,3 +36,6 @@ git commit -m '' 提交信息
 切换分支：` git checkout (brachname)`
 合并分支命令 ` git merge`
 删除分支 ` git branch -d (branchname)`
+
+撤销commit
+git reset --soft HEAD^
