@@ -1,0 +1,7 @@
+ this.timerID = setInterval(() => this.tick(),1000);
+
+箭头函数=> 和this  
+
+tick()中的this作用域是window
+在这里很明显 不对的
+所以用=>箭头函数来改变this指向

@@ -1,0 +1,86 @@
+H5
+
+HTML5
+HTML CSS JAVASCRIPT
+html+css
+
+前端 后端
+sublime
+Visual coder
+
+chrome
+
+chrome调试 学习网站
+DEBUG
+B站
+www.w3school.com 
+w3 www world wide web
+
+BOM（BROWER） DOM （DOCUMENT OBJECT  MODEL）
+
+callback 回调函数
+onmouserover（X，Y）keydown（KEYCODE）
+
+CSS 层叠样式
+
+= ==
+事件 驼峰写法 readable 匿名
+DOM（）
+insert append
+ID IDENDIFY
+换位置JS能否运行
+JQUERY
+$（selector）
+选择器
+
+$()
+CSS （TAG class id）
+
+正则表达式
+
+PERSONAL 解释 编译
+for（i = ；i<1000）
+{
+
+}
+编译原理()
+
+
+语义分析
+\n
+\d decimal
+\h 0-9-abcdef |
+（0|[1-9][0-9]*）
+[0-9]*
+
++5 -5
+++5 --5
+
+5,6
+0-255 byte
+
+00-ff
+000-ffff
+0-65535
+tlsheny@163.com
+yang-shen
+Unicode字符集 
+form
+表单
+
+模式
+
+
+？（表示0到1个 字符）*（0到n个字符）+（1到n个字符）
+\u unicode  \u4e0-\u9fa5 (中文字符）
+\d 非阿拉伯数字 \D
+\w \t tab 
+\n(转义字符)
+\s
+printf
+[] 表示集合
+正则表达式^开头 $结尾
+[A-Za-z0-9]
+| 表示或
+
+([A-Za-z]+[0-9]*)
