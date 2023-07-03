@@ -39,3 +39,9 @@ git commit -m '' 提交信息
 
 撤销commit
 git reset --soft HEAD^
+
+github 贡献值不显示问题：
+提交必须使用与github账号关联的电子邮箱地址
+` git config user.email`
+`  git config --global user.email 邮箱地址` # 对所有仓库设置电子邮箱地址
+`  git config --local user.email 邮箱地址` # 仅对当前仓库设置电子邮箱地址
