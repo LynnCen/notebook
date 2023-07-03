@@ -1,0 +1,15 @@
+* text=auto
+*.js linguist-language=javascript
+计算机基础/⚙️计算机组成原理.xmind filter=lfs diff=lfs merge=lfs -text
+计算机基础/💡[[:space:]]数据结构.xmind filter=lfs diff=lfs merge=lfs -text
+计算机基础/🖥操作系统.xmind filter=lfs diff=lfs merge=lfs -text
+计算机基础/《计算机组成原理》唐朔飞.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/编译原理技术与工具第二版.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/计算机组成与系统结构(第二版).pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/C语言程序设计：现代方法：第2版.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/HEAD-FIRST-JAVA(中文版)第二版.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/《数据结构》算法实现及解析[第二版]高一凡(jb51.net).pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/[数据结构(C语言版)].严蔚敏_吴伟民.扫描版_有目录.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/算法导论.pdf filter=lfs diff=lfs merge=lfs -text
+计算机基础/OS/计算机操作系统.pdf filter=lfs diff=lfs merge=lfs -text
+node/node.js_in_action_(2014)的副本.pdf filter=lfs diff=lfs merge=lfs -text
