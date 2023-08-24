@@ -1,5 +1,3 @@
-
-
 **1.主要考察基本代码能力(P5), 及对于优化手段(请求并发, 缓存) 等手段的使用(P6)**
 
 ```javascript
@@ -33,7 +31,6 @@ const add = async (...args) => {
 add(1, 2).then(result => console.log(result)); // 输出 3
 add(1, 3, 5, 2).then(result => console.log(result)); // 输出 11
 ```
-
 
 2.**主要考察基本代码能力(P5)**
 
@@ -72,8 +69,6 @@ function WindowSize() {
 export default WindowSize;
 
 ```
-
-
 
 3.**主要考察基本代码能力(P5)**
 
@@ -133,8 +128,6 @@ export default App;
 
 ```
 
-
-
 4.**主要考察组件开发能力(P6)**
 
 ```javascript
@@ -148,6 +141,46 @@ export default App;
 2. 灯的个数、颜色、持续时间、闪烁时间、灯光次序都可配置，如：
 lights=[{color: '#fff', duration: 10000, twinkleDuration: 5000}, ... ]
 */
+
+import React, { useState, useEffect } from 'react';
+
+function TrafficLightController({ lights }) {
+  const [currentLight, setCurrentLight] = useState(0);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setCurrentLight((currentLight + 1) % lights.length);
+    }, lights[currentLight].duration);
+
+    return () => clearTimeout(timer);
+  }, [currentLight, lights]);
+
+  return (
+    <div className="traffic-light-controller">
+      {lights.map((light, index) => (
+        <div
+          key={index}
+          className={`light ${index === currentLight ? 'active' : ''}`}
+          style={{ backgroundColor: light.color }}
+        />
+      ))}
+    </div>
+  );
+}
+
+// 使用示例
+const lights = [
+  { color: 'red', duration: 20000, twinkleDuration: 5000 },
+  { color: 'green', duration: 20000, twinkleDuration: 5000 },
+  { color: 'yellow', duration: 10000 }
+];
+
+function App() {
+  return <TrafficLightController lights={lights} />;
+}
+
+export default App;
+
 ```
 
 **5.主要考察基本组件开发能力(P5)**
@@ -196,9 +229,7 @@ export default UncontrolledInput;
 
 ```
 
-
 6.**用react 实现一个input组件能将输入包含 逗号(半角,全角)、空格、 换行符分隔的字符串转换为数组进行onChange输出， 输入框内展示为以半角逗号分隔的字符串。**请考虑用户体验， 不能影响用户输入****
-
 
 ```javascript
 import React, { useState } from 'react';
@@ -252,7 +283,6 @@ console.log(isPalindrome("racecar")); // true
 console.log(isPalindrome("hello")); // false
 ```
 
-
 8.**实现一个函数，输入一个整数数组和一个数字 k，查找数组中第 k 大的数。假设 k 总是有效的。**
 
 ```javascript
@@ -284,9 +314,6 @@ function findKthLargest(nums, k) {
 console.log(findKthLargest([3, 2, 1, 5, 6, 4], 2)); // 5
 console.log(findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4)); // 4
 ```
-
-
-
 
 1. **实现一个函数，输入一个字符串，判断字符串中是否包含重复字符。**
 2. **实现一个函数，输入一个数组和一个数字target，找出数组中两个数的和等于target，并返回这两个数的下标。**
