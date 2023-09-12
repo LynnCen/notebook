@@ -726,6 +726,24 @@ op rs rt immediate 2.直接寻址
 ![16](./img/常见的条件转移指令.png)
 CF = Count 异或 Sub
 
+#### 高级语言于机器级代码之间的对应
+
+![1694518290426](image/ComputerOrganization/1694518290426.png)
+
+#### 常见的 x86 汇编指令
+
+![1694518300515](image/ComputerOrganization/1694518300515.png)
+
+#### AT&T 格式和 Interl 格式
+
+![1694518313870](image/ComputerOrganization/1694518313870.png)
+
+#### 选择语句的机器级表示
+
+![1694518331921](image/ComputerOrganization/1694518331921.png)
+
+![1694518364500](image/ComputerOrganization/1694518364500.png)![1694518374706](image/ComputerOrganization/1694518374706.png)
+
 #### 指令系统设计风格
 
 1.按操作数位置指定风格来分
