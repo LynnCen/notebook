@@ -744,6 +744,12 @@ CF = Count 异或 Sub
 
 ![1694518364500](image/ComputerOrganization/1694518364500.png)![1694518374706](image/ComputerOrganization/1694518374706.png)
 
+#### 循环语句的机器级表示
+
+![1694601803725](image/ComputerOrganization/1694601803725.png)
+
+#### Call 和 Ret 指令（函数调用的机器级表示）
+
 #### 指令系统设计风格
 
 1.按操作数位置指定风格来分
