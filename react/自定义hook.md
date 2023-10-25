@@ -24,51 +24,85 @@ function usePrevious<T>(
 export default usePrevious;
 ```
 
-
 ### useSetState
 
 ```ts
-import { isFunction } from '@/utils/utils';
+import { isFunction } from "@/utils/utils";
 import { useCallback, useState, useEffect, useRef } from "react";
 
 type ISetState<U> = U | ((...args: any[]) => U);
-type ReturnStateMethods<U> = Partial<U> | ((state: U) => Partial<U>)
+type ReturnStateMethods<U> = Partial<U> | ((state: U) => Partial<U>);
 
-type ReturnSetStateFn<T> = (state: ReturnStateMethods<T>, cb?: (...args: any[]) => void) => void
+type ReturnSetStateFn<T> = (
+  state: ReturnStateMethods<T>,
+  cb?: (...args: any[]) => void
+) => void;
 
 /**
  * 模拟class组件的setState方法
  * @param {ISetState<T>} initObj
  * @returns {[T, ((state: ReturnStateMethods<T>) => void)]}
  */
-export default function useSetState<T extends object>(initObj: ISetState<T>): [T, ReturnSetStateFn<T>] {
-  const [state, setState] = useState<T>(initObj)
-  const executeCb = useRef<(...args: any[]) => void>()
+export default function useSetState<T extends object>(
+  initObj: ISetState<T>
+): [T, ReturnSetStateFn<T>] {
+  const [state, setState] = useState<T>(initObj);
+  const executeCb = useRef<(...args: any[]) => void>();
   const newSetState = useCallback<ReturnSetStateFn<T>>((state, cb) => {
-    let newState = state
+    let newState = state;
     setState((prevState: T) => {
-      executeCb.current = cb
-      if (isFunction(state) && typeof state === 'function') {
-        newState = state(prevState)
+      executeCb.current = cb;
+      if (isFunction(state) && typeof state === "function") {
+        newState = state(prevState);
       }
-      return { ...prevState, ...newState }
-    })
-  }, [])
+      return { ...prevState, ...newState };
+    });
+  }, []);
   useEffect(() => {
-    const { current: cb } = executeCb
-    if (typeof cb === 'function')
-      isFunction(cb) && cb()
-  }, [executeCb.current])
-  return [state, newSetState]
+    const { current: cb } = executeCb;
+    if (typeof cb === "function") isFunction(cb) && cb();
+  }, [executeCb.current]);
+  return [state, newSetState];
 }
-
 ```
 
+### useInterval
+
+```typescript
+import { useEffect, useRef } from "react";
+
+type Callback = () => void;
+
+const useInterval = (callback: Callback, delay: number | null) => {
+  const savedCallback = useRef<Callback>(() => {});
+
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  useEffect(() => {
+    const tick = () => {
+      savedCallback.current();
+    };
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+
+      return () => {
+        console.log("id", id);
+
+        clearInterval(id);
+      };
+    }
+  }, [delay]);
+};
+
+export default useInterval;
+```
 
 ### useIsFirstRender
 
 ```ts
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect } from "react";
 
 function useIsFirstRender(): boolean {
   const isFirstRenderRef = useRef<boolean>(true);
@@ -81,6 +115,4 @@ function useIsFirstRender(): boolean {
 }
 
 export default useIsFirstRender;
-
 ```
-
