@@ -97,6 +97,20 @@ const useInterval = (callback: Callback, delay: number | null) => {
 };
 
 export default useInterval;
+
+useInterval(
+  () => {
+    queryRecordMsg();
+  },
+  isDone ? null : 500
+);
+useEffect(() => {
+  setTimeout(() => {
+    if (data.status !== SSEMStatus.End) {
+      setIsDone(true);
+    }
+  }, 1000 * 60);
+}, []);
 ```
 
 ### useIsFirstRender
