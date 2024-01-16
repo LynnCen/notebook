@@ -3,7 +3,6 @@
 `b`
 
 ```typescript
-
 type InitialStateType = {
   collapse: boolean;
   modalWidth: number;
@@ -23,14 +22,14 @@ const initialState = {
     videoEventData: {
       uid: 0,
       videoConversationId: 0,
-      appId: '',
-      token: '',
-      cname: '',
+      appId: "",
+      token: "",
+      cname: "",
       queue: 0,
-      touchId: '',
-      customerName: '',
-      avator: '',
-      second: '',
+      touchId: "",
+      customerName: "",
+      avator: "",
+      second: "",
     },
     videoEventType: IMOnlineVideoEventType.NULL,
   },
@@ -39,9 +38,9 @@ const initialState = {
     audioTrack: undefined,
     videoTrack: undefined,
     videoState: false,
-    avator: '',
-    userName: '',
-    description: '',
+    avator: "",
+    userName: "",
+    description: "",
   },
 
   localUser: {
@@ -58,8 +57,8 @@ const initialState = {
     remoteUsersAudioEnabled: true,
     remoteUsers: [],
     remoteUplinkNetworkQuality: 0,
-    name: '',
-    avator: '',
+    name: "",
+    avator: "",
   },
 };
 // 创建context对象
@@ -68,7 +67,7 @@ export const ModalContext = createContext<{
   dispatch: React.Dispatch<Actions>;
 }>({ state: initialState, dispatch: () => null });
 
-// 定义每个state的reducer函数 
+// 定义每个state的reducer函数
 const mainReducer = (state: InitialStateType, action: Actions) => ({
   collapse: collapseReducer(state.collapse, action),
   modalWidth: modalWidthReducer(state.modalWidth, action),
@@ -83,11 +82,12 @@ const mainReducer = (state: InitialStateType, action: Actions) => ({
 // provider组件
 export const MoadlRtcProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(mainReducer, initialState);
-  return <ModalContext.Provider value={{ state, dispatch }}>{children}</ModalContext.Provider>;
+  return (
+    <ModalContext.Provider value={{ state, dispatch }}>
+      {children}
+    </ModalContext.Provider>
+  );
 };
-
-
-
 ```
 
 `reducer.ts`
@@ -114,7 +114,8 @@ type ModalWidthPayload = {
   [DispatchActionTypes.MiddleModal]: undefined;
   [DispatchActionTypes.MaxModal]: undefined;
 };
-export type ModalWidthActions = ActionMap<ModalWidthPayload>[keyof ActionMap<ModalWidthPayload>];
+export type ModalWidthActions =
+  ActionMap<ModalWidthPayload>[keyof ActionMap<ModalWidthPayload>];
 export const modalWidthReducer = (state: number, action: Actions) => {
   switch (action.type) {
     case DispatchActionTypes.MinModal:
@@ -142,7 +143,8 @@ type LocalUserPayload = {
   [DispatchActionTypes.EnabledVideoTrack]: boolean;
   [DispatchActionTypes.EnabledAduioTrack]: boolean;
 };
-export type LocalUserActions = ActionMap<LocalUserPayload>[keyof ActionMap<LocalUserPayload>];
+export type LocalUserActions =
+  ActionMap<LocalUserPayload>[keyof ActionMap<LocalUserPayload>];
 export const localUserReducer = (state: LocalUser, action: Actions) => {
   switch (action.type) {
     case DispatchActionTypes.LocalAudioTrack:
@@ -200,60 +202,67 @@ export type Actions =
 
 ```typescript
 export enum DispatchActionTypes {
-  COLLAPSE = 'COLLAPSE',
-  MiddleModal = 'MiddleModal',
-  MinModal = 'MinModal',
-  MaxModal = 'MaxModal',
-  CurrentTrack = 'CHANGE_CURRENTTRACK',
-  LocalAudioTrack = 'CHANGE_LOCALAUDIOTRACK',
-  LocalVideoTrack = 'CHANGE_LOCALVIDEOTRACK',
-  RemoteUsers = 'CHANGE_REMOTEUSERS',
-  RemoteUsersInfo = 'REMOTE_USER_INFO',
-  EnabledAduioTrack = 'ENABLE_ADUIOTRACK',
-  EnabledVideoTrack = 'ENABLE_VIDEOTRACK',
-  LocalUplinkNetworkQuality = 'LOCAL_UP_NETWORK_QUALITY',
-  RemoteUplinkNetworkQuality = 'REMOTE_UP_NETWORK_QUALITY',
-  ModalVisible = 'MODAL_VISIBLE',
-  RemoteUsersState = 'REMOTE_USERS_STATE',
-  RemoteUsersVolume = 'REMOTE_USERS_VOLUME',
-  RemoteUsersVideoEnabled = 'REMOTE_USER_ENABLED',
-  RemoteUsersAudioEnabled = 'REMOTE_USER_AUDIO_ENABLED',
-  IsCalled = 'IsCalled',
-  WsMessage = 'WsMessage',
+  COLLAPSE = "COLLAPSE",
+  MiddleModal = "MiddleModal",
+  MinModal = "MinModal",
+  MaxModal = "MaxModal",
+  CurrentTrack = "CHANGE_CURRENTTRACK",
+  LocalAudioTrack = "CHANGE_LOCALAUDIOTRACK",
+  LocalVideoTrack = "CHANGE_LOCALVIDEOTRACK",
+  RemoteUsers = "CHANGE_REMOTEUSERS",
+  RemoteUsersInfo = "REMOTE_USER_INFO",
+  EnabledAduioTrack = "ENABLE_ADUIOTRACK",
+  EnabledVideoTrack = "ENABLE_VIDEOTRACK",
+  LocalUplinkNetworkQuality = "LOCAL_UP_NETWORK_QUALITY",
+  RemoteUplinkNetworkQuality = "REMOTE_UP_NETWORK_QUALITY",
+  ModalVisible = "MODAL_VISIBLE",
+  RemoteUsersState = "REMOTE_USERS_STATE",
+  RemoteUsersVolume = "REMOTE_USERS_VOLUME",
+  RemoteUsersVideoEnabled = "REMOTE_USER_ENABLED",
+  RemoteUsersAudioEnabled = "REMOTE_USER_AUDIO_ENABLED",
+  IsCalled = "IsCalled",
+  WsMessage = "WsMessage",
 }
 export enum CurrentTrackKey {
-  RemoteUser = 'REMOTE_USER',
-  LocalUser = 'LOCAL_USER',
+  RemoteUser = "REMOTE_USER",
+  LocalUser = "LOCAL_USER",
 }
 ```
 
 `useAgora.tsx`
 
 ```typescript
-import { useState, useEffect, useContext, useRef, useCallback, useMemo } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import type {
   IAgoraRTCClient,
   IAgoraRTCRemoteUser,
   ILocalVideoTrack,
   ILocalAudioTrack,
   NetworkQuality,
-} from 'agora-rtc-sdk-ng';
-import AgoraRTC from 'agora-rtc-sdk-ng';
-import { message } from 'antd';
-import _, { lowerFirst } from 'lodash';
+} from "agora-rtc-sdk-ng";
+import AgoraRTC from "agora-rtc-sdk-ng";
+import { message } from "antd";
+import _, { lowerFirst } from "lodash";
 
-import { useService } from '@ali/servos-ui';
-import { useApplicationMDI } from '@ali/servos-ui';
+import { useService } from "@ali/servos-ui";
+import { useApplicationMDI } from "@ali/servos-ui";
 
-import { useApi } from '@/hooks';
-import { VideoRecordService } from '@/core/services/VideoRecordService/VideoRecordService';
-import type { OnlineAppDocument } from '@/core';
-import { VideoDescription, VideoRecordStatus } from '@/constants';
-import { IMOnlineVideoEventType } from '@/generated/online';
-import type { VideoEventData } from '@/types/wsType';
+import { useApi } from "@/hooks";
+import { VideoRecordService } from "@/core/services/VideoRecordService/VideoRecordService";
+import type { OnlineAppDocument } from "@/core";
+import { VideoDescription, VideoRecordStatus } from "@/constants";
+import { IMOnlineVideoEventType } from "@/generated/online";
+import type { VideoEventData } from "@/types/wsType";
 
-import { DispatchActionTypes, CurrentTrackKey } from '../context/ActionType';
-import { ModalContext } from '../context/context';
+import { DispatchActionTypes, CurrentTrackKey } from "../context/ActionType";
+import { ModalContext } from "../context/context";
 
 type UseAgoraReturn = {
   leave: Function;
@@ -286,26 +295,32 @@ export const useRTCApi = (): UseRTCApiReturn => {
   const { wsMessage, remoteUser } = state;
   const UserId = useMemo(() => active?.id, [active]);
   const videoApiInvite = useCallback(async () => {
-    const res = await request('mopen.merge.xixikf.service.support.video.changestatus', {
-      videoEventType: VideoRecordStatus.INVITE,
-      touchId: UserId,
-    });
+    const res = await request(
+      "mopen.merge.xixikf.service.support.video.changestatus",
+      {
+        videoEventType: VideoRecordStatus.INVITE,
+        touchId: UserId,
+      }
+    );
     const result = res?.value as InviteReturn;
     if (!_.isEmpty(result)) {
       return Object.assign(result, { touchId: UserId });
     }
-    message.error('系统异常');
+    message.error("系统异常");
     return false;
   }, [UserId]);
   const videoApiAnswer = useCallback(async () => {
     if (_.isEmpty(wsMessage)) return false;
-    console.log('videoApiAnswer', wsMessage);
-    const res = await request('mopen.merge.xixikf.service.support.video.changestatus', {
-      videoEventType: VideoRecordStatus.ANSWER,
-      touchId: wsMessage.videoEventData.touchId,
-      videoConversationId: wsMessage.videoEventData.videoConversationId,
-      videoToken: wsMessage.videoEventData.token,
-    });
+    console.log("videoApiAnswer", wsMessage);
+    const res = await request(
+      "mopen.merge.xixikf.service.support.video.changestatus",
+      {
+        videoEventType: VideoRecordStatus.ANSWER,
+        touchId: wsMessage.videoEventData.touchId,
+        videoConversationId: wsMessage.videoEventData.videoConversationId,
+        videoToken: wsMessage.videoEventData.token,
+      }
+    );
     return res;
   }, [wsMessage]);
 
@@ -313,8 +328,10 @@ export const useRTCApi = (): UseRTCApiReturn => {
     const ConversationId = wsMessage.videoEventData.videoConversationId;
     const remoteUsersState = remoteUser.remoteUsersState;
     if (!ConversationId) return;
-    await request('mopen.merge.xixikf.service.support.video.changestatus', {
-      videoEventType: remoteUsersState ? VideoRecordStatus.HANGUP : VideoRecordStatus.CANCEL,
+    await request("mopen.merge.xixikf.service.support.video.changestatus", {
+      videoEventType: remoteUsersState
+        ? VideoRecordStatus.HANGUP
+        : VideoRecordStatus.CANCEL,
       touchId: state.wsMessage.videoEventData.touchId,
       videoConversationId: Number(ConversationId),
       isHolding: isHolding ? true : false,
@@ -322,7 +339,7 @@ export const useRTCApi = (): UseRTCApiReturn => {
   }
 
   const videoReconnect = useCallback(async () => {
-    await request('mopen.merge.xixikf.service.support.video.changestatus', {
+    await request("mopen.merge.xixikf.service.support.video.changestatus", {
       videoEventType: VideoRecordStatus.RECONNECT,
     });
   }, []);
@@ -334,7 +351,9 @@ export const useRTCApi = (): UseRTCApiReturn => {
   };
 };
 
-export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraReturn {
+export default function useAgora(
+  client: IAgoraRTCClient | undefined
+): UseAgoraReturn {
   const { state, dispatch } = useContext(ModalContext);
   const { localUser, currentTrack, remoteUser } = state;
   const { active } = useApplicationMDI<OnlineAppDocument>();
@@ -346,22 +365,38 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     try {
       if (!client) return;
       if (!vidoeInfo) {
-        return dispatch({ type: DispatchActionTypes.ModalVisible, payload: false });
+        return dispatch({
+          type: DispatchActionTypes.ModalVisible,
+          payload: false,
+        });
       }
-      const clientUid = await client.join(vidoeInfo.appId, vidoeInfo.cname, vidoeInfo.token);
+      const clientUid = await client.join(
+        vidoeInfo.appId,
+        vidoeInfo.cname,
+        vidoeInfo.token
+      );
       const audioTrack = await AgoraRTC.createMicrophoneAudioTrack();
-      dispatch({ type: DispatchActionTypes.LocalAudioTrack, payload: audioTrack });
+      dispatch({
+        type: DispatchActionTypes.LocalAudioTrack,
+        payload: audioTrack,
+      });
       const videoTrack = await AgoraRTC.createCameraVideoTrack();
-      dispatch({ type: DispatchActionTypes.LocalVideoTrack, payload: videoTrack });
+      dispatch({
+        type: DispatchActionTypes.LocalVideoTrack,
+        payload: videoTrack,
+      });
       await client.publish(Object.values({ videoTrack, audioTrack }));
     } catch (error) {
-      message.error('系统异常');
+      message.error("系统异常");
       leave(VideoRecordStatus.INTERRUPT);
-      console.log('useAgora-join---->', error);
+      console.log("useAgora-join---->", error);
     }
   }
-  async function leave(EventType: IMOnlineVideoEventType | VideoRecordStatus, isHolding?: boolean) {
-    console.log('触发挂断逻辑', EventType, isHolding, state);
+  async function leave(
+    EventType: IMOnlineVideoEventType | VideoRecordStatus,
+    isHolding?: boolean
+  ) {
+    console.log("触发挂断逻辑", EventType, isHolding, state);
     if (
       EventType === IMOnlineVideoEventType.HANGUP ||
       EventType === IMOnlineVideoEventType.CANCEL ||
@@ -374,23 +409,41 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     if (localUser.localAudioTrack) {
       localUser.localAudioTrack.stop();
       localUser.localAudioTrack.close();
-      dispatch({ type: DispatchActionTypes.LocalAudioTrack, payload: undefined });
+      dispatch({
+        type: DispatchActionTypes.LocalAudioTrack,
+        payload: undefined,
+      });
     }
     if (localUser.localVideoTrack) {
       localUser.localVideoTrack.stop();
       localUser.localVideoTrack.close();
-      dispatch({ type: DispatchActionTypes.LocalVideoTrack, payload: undefined });
+      dispatch({
+        type: DispatchActionTypes.LocalVideoTrack,
+        payload: undefined,
+      });
     }
     await client?.leave();
     dispatch({ type: DispatchActionTypes.ModalVisible, payload: false });
     dispatch({ type: DispatchActionTypes.RemoteUsersState, payload: false });
     dispatch({ type: DispatchActionTypes.RemoteUsers, payload: [] });
-    dispatch({ type: DispatchActionTypes.RemoteUplinkNetworkQuality, payload: 0 });
-    dispatch({ type: DispatchActionTypes.RemoteUsersVideoEnabled, payload: false });
-    dispatch({ type: DispatchActionTypes.RemoteUsersAudioEnabled, payload: true });
+    dispatch({
+      type: DispatchActionTypes.RemoteUplinkNetworkQuality,
+      payload: 0,
+    });
+    dispatch({
+      type: DispatchActionTypes.RemoteUsersVideoEnabled,
+      payload: false,
+    });
+    dispatch({
+      type: DispatchActionTypes.RemoteUsersAudioEnabled,
+      payload: true,
+    });
     dispatch({ type: DispatchActionTypes.EnabledAduioTrack, payload: true });
     dispatch({ type: DispatchActionTypes.EnabledVideoTrack, payload: true });
-    dispatch({ type: DispatchActionTypes.LocalUplinkNetworkQuality, payload: 0 });
+    dispatch({
+      type: DispatchActionTypes.LocalUplinkNetworkQuality,
+      payload: 0,
+    });
     dispatch({ type: DispatchActionTypes.IsCalled, payload: false });
     dispatch({
       type: DispatchActionTypes.CurrentTrack,
@@ -400,19 +453,25 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
         videoTrack: undefined,
       },
     });
-    videoRecordService.emit('setVideoRecordStatus', VideoRecordStatus.HANGUP);
+    videoRecordService.emit("setVideoRecordStatus", VideoRecordStatus.HANGUP);
   }
 
   async function returnResources() {
     if (localUser.localAudioTrack) {
       localUser.localAudioTrack.stop();
       localUser.localAudioTrack.close();
-      dispatch({ type: DispatchActionTypes.LocalAudioTrack, payload: undefined });
+      dispatch({
+        type: DispatchActionTypes.LocalAudioTrack,
+        payload: undefined,
+      });
     }
     if (localUser.localVideoTrack) {
       localUser.localVideoTrack.stop();
       localUser.localVideoTrack.close();
-      dispatch({ type: DispatchActionTypes.LocalVideoTrack, payload: undefined });
+      dispatch({
+        type: DispatchActionTypes.LocalVideoTrack,
+        payload: undefined,
+      });
     }
   }
 
@@ -442,7 +501,7 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
         },
       });
     }
-    message.info(`摄像头已${enabled ? '开启' : '关闭'}`);
+    message.info(`摄像头已${enabled ? "开启" : "关闭"}`);
   }
 
   function setLocalAudioEnabled(enabled: boolean = true): void {
@@ -450,7 +509,7 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
       localUser.localAudioTrack.setEnabled(enabled);
     }
     dispatch({ type: DispatchActionTypes.EnabledAduioTrack, payload: enabled });
-    message.info(`麦克风已${enabled ? '开启' : '关闭'}`);
+    message.info(`麦克风已${enabled ? "开启" : "关闭"}`);
   }
 
   useEffect(() => {
@@ -459,22 +518,37 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
 
   useEffect(() => {
     if (!client) return;
-    dispatch({ type: DispatchActionTypes.RemoteUsers, payload: Array.from(client.remoteUsers) });
-    const handleUserPublished = async (user: IAgoraRTCRemoteUser, mediaType: 'audio' | 'video') => {
+    dispatch({
+      type: DispatchActionTypes.RemoteUsers,
+      payload: Array.from(client.remoteUsers),
+    });
+    const handleUserPublished = async (
+      user: IAgoraRTCRemoteUser,
+      mediaType: "audio" | "video"
+    ) => {
       await client.subscribe(user, mediaType);
-      videoRecordService.emit('setVideoRecordStatus', VideoRecordStatus.ANSWER);
+      videoRecordService.emit("setVideoRecordStatus", VideoRecordStatus.ANSWER);
       // toggle rerender while state of remoteUsers changed.
-      dispatch({ type: DispatchActionTypes.RemoteUsers, payload: Array.from(client.remoteUsers) });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsers,
+        payload: Array.from(client.remoteUsers),
+      });
       dispatch({ type: DispatchActionTypes.RemoteUsersState, payload: true });
-      dispatch({ type: DispatchActionTypes.RemoteUsersVideoEnabled, payload: user.hasVideo });
-      dispatch({ type: DispatchActionTypes.RemoteUsersAudioEnabled, payload: user.hasAudio });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsersVideoEnabled,
+        payload: user.hasVideo,
+      });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsersAudioEnabled,
+        payload: user.hasAudio,
+      });
       if (currentTrack.KEY === CurrentTrackKey.RemoteUser) {
         dispatch({
           type: DispatchActionTypes.CurrentTrack,
           payload: {
             ...currentTrack,
             videoState: user.hasVideo,
-            description: user.hasVideo ? '' : VideoDescription.EnableVideotrack,
+            description: user.hasVideo ? "" : VideoDescription.EnableVideotrack,
             audioTrack: client.remoteUsers[0].audioTrack,
             videoTrack: client.remoteUsers[0].videoTrack,
             // userName: active.userName,
@@ -486,13 +560,21 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     const handleUserUnpublished = (user: IAgoraRTCRemoteUser) => {
       dispatch({
         type: DispatchActionTypes.RemoteUsers,
-        payload: Array.from(client.remoteUsers).filter((item) => item._video_muted_ === false),
+        payload: Array.from(client.remoteUsers).filter(
+          (item) => item._video_muted_ === false
+        ),
       });
       if (!user.hasVideo) {
-        dispatch({ type: DispatchActionTypes.RemoteUsersVideoEnabled, payload: user.hasVideo });
+        dispatch({
+          type: DispatchActionTypes.RemoteUsersVideoEnabled,
+          payload: user.hasVideo,
+        });
       }
       if (!user.hasAudio) {
-        dispatch({ type: DispatchActionTypes.RemoteUsersAudioEnabled, payload: user.hasAudio });
+        dispatch({
+          type: DispatchActionTypes.RemoteUsersAudioEnabled,
+          payload: user.hasAudio,
+        });
       }
       if (currentTrack.KEY === CurrentTrackKey.RemoteUser && !user.hasVideo) {
         dispatch({
@@ -508,24 +590,33 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
       }
     };
     const handleUserJoined = (user: IAgoraRTCRemoteUser) => {
-      dispatch({ type: DispatchActionTypes.RemoteUsers, payload: Array.from(client.remoteUsers) });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsers,
+        payload: Array.from(client.remoteUsers),
+      });
     };
     const handleUserLeft = (user: IAgoraRTCRemoteUser) => {
-      dispatch({ type: DispatchActionTypes.RemoteUsers, payload: Array.from(client.remoteUsers) });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsers,
+        payload: Array.from(client.remoteUsers),
+      });
       // dispatch({ type: DispatchActionTypes.RemoteUsersState, payload: false });
-      dispatch({ type: DispatchActionTypes.RemoteUsersVideoEnabled, payload: false });
+      dispatch({
+        type: DispatchActionTypes.RemoteUsersVideoEnabled,
+        payload: false,
+      });
     };
 
-    client.on('user-published', handleUserPublished);
-    client.on('user-unpublished', handleUserUnpublished);
-    client.on('user-joined', handleUserJoined);
-    client.on('user-left', handleUserLeft);
+    client.on("user-published", handleUserPublished);
+    client.on("user-unpublished", handleUserUnpublished);
+    client.on("user-joined", handleUserJoined);
+    client.on("user-left", handleUserLeft);
 
     return () => {
-      client.off('user-published', handleUserPublished);
-      client.off('user-unpublished', handleUserUnpublished);
-      client.off('user-joined', handleUserJoined);
-      client.off('user-left', handleUserLeft);
+      client.off("user-published", handleUserPublished);
+      client.off("user-unpublished", handleUserUnpublished);
+      client.off("user-joined", handleUserJoined);
+      client.off("user-left", handleUserLeft);
     };
   }, [currentTrack, client]);
 
@@ -533,16 +624,19 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     if (!client) return;
     // ...todo  networkQuality.uplinkNetworkQuality != state.localUplinkNetworkQuality
     const handleNetworkQuality = (networkQuality: NetworkQuality) => {
-      if (networkQuality.uplinkNetworkQuality !== localUser.localUplinkNetworkQuality) {
+      if (
+        networkQuality.uplinkNetworkQuality !==
+        localUser.localUplinkNetworkQuality
+      ) {
         dispatch({
           type: DispatchActionTypes.LocalUplinkNetworkQuality,
           payload: networkQuality.uplinkNetworkQuality,
         });
       }
     };
-    client.on('network-quality', handleNetworkQuality);
+    client.on("network-quality", handleNetworkQuality);
     return () => {
-      client.off('network-quality', handleNetworkQuality);
+      client.off("network-quality", handleNetworkQuality);
     };
   }, [client, localUser.localUplinkNetworkQuality]);
 
@@ -551,7 +645,8 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     try {
       const remoteNetworkQuality = client!.getRemoteNetworkQuality();
       if (Object.values(remoteNetworkQuality).length < 1) return;
-      const uplinkNetworkQuality = Object.values(remoteNetworkQuality)[0].uplinkNetworkQuality;
+      const uplinkNetworkQuality =
+        Object.values(remoteNetworkQuality)[0].uplinkNetworkQuality;
       if (uplinkNetworkQuality !== remoteUser.remoteUplinkNetworkQuality) {
         dispatch({
           type: DispatchActionTypes.RemoteUplinkNetworkQuality,
@@ -559,7 +654,7 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
         });
       }
     } catch (error) {
-      console.log('fetchNetWorkQuality', error);
+      console.log("fetchNetWorkQuality", error);
     }
   };
   useEffect(() => {
@@ -579,17 +674,16 @@ export default function useAgora(client: IAgoraRTCClient | undefined): UseAgoraR
     returnResources,
   };
 }
-
 ```
 
 改进：对 ` const { state, dispatch } = useContext(ModalContext)`进行优化
 
 ```typescript
-const useModalContext = ()=>{
+const useModalContext = () => {
   const { state, dispatch } = useContext(ModalContext);
-  const dispatchHandle = useCallback(()=>{
-    dispatch({})
-  },[state])
-  return {state,dispatchHandle,dispatch}
-}
+  const dispatchHandle = useCallback(() => {
+    dispatch({});
+  }, [state]);
+  return { state, dispatchHandle, dispatch };
+};
 ```

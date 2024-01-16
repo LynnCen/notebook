@@ -20,10 +20,10 @@ const add = async (...args) => {
   if (args.length === 1) {
     return args[0];
   }
-  
+
   const [a, b] = args.splice(0, 2);
   const sum = await addRemote(a, b);
-  
+
   return add(sum, ...args);
 };
 
@@ -37,37 +37,37 @@ add(1, 3, 5, 2).then(result => console.log(result)); // 输出 11
 如何实现一个组件实时显示窗口的大小？
 
 ```javascript
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function WindowSize() {
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
-    height: window.innerHeight
+    height: window.innerHeight,
   });
 
   useEffect(() => {
     function handleResize() {
       setWindowSize({
         width: window.innerWidth,
-        height: window.innerHeight
+        height: window.innerHeight,
       });
     }
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div>
-      <h1>Window Size: {windowSize.width} x {windowSize.height}</h1>
+      <h1>
+        Window Size: {windowSize.width} x {windowSize.height}
+      </h1>
     </div>
   );
 }
 
 export default WindowSize;
-
 ```
 
 3.**主要考察基本代码能力(P5)**
@@ -83,9 +83,10 @@ function LazyImage({ src, alt }) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
+    // 观察者
     const observer = new IntersectionObserver((entries) => {
       const image = entries[0];
-
+// 判断是否出现在根节点可视交叉区域
       if (image.isIntersecting) {
         setIsLoaded(true);
       }
@@ -111,6 +112,31 @@ function LazyImage({ src, alt }) {
       )}
     </div>
   );
+}
+function LazyImage({src,alt}){
+const imgRef = useRef();
+const [load,setLoad] = useState(false);
+
+useEffect(()=>{
+  const observer = new IntersectionObserver((entries)=>{
+    const imgage = entries[0];
+    if(imgage.isIntersecting){
+      setLoad(true);
+    }
+  })
+
+  if(imgRef.current){
+    observer.observe(imgRef.current)
+  }
+  return ()=>{
+    if(imgRef.current){
+      observer.ununobserve(imgRef.current)
+    }
+  }
+},[])
+return <>{
+  load?<img src={src} alt={alt}/>:<div>loading</div>
+}
 }
 
 export default LazyImage;
@@ -142,7 +168,7 @@ export default App;
 lights=[{color: '#fff', duration: 10000, twinkleDuration: 5000}, ... ]
 */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 function TrafficLightController({ lights }) {
   const [currentLight, setCurrentLight] = useState(0);
@@ -160,7 +186,7 @@ function TrafficLightController({ lights }) {
       {lights.map((light, index) => (
         <div
           key={index}
-          className={`light ${index === currentLight ? 'active' : ''}`}
+          className={`light ${index === currentLight ? "active" : ""}`}
           style={{ backgroundColor: light.color }}
         />
       ))}
@@ -170,9 +196,9 @@ function TrafficLightController({ lights }) {
 
 // 使用示例
 const lights = [
-  { color: 'red', duration: 20000, twinkleDuration: 5000 },
-  { color: 'green', duration: 20000, twinkleDuration: 5000 },
-  { color: 'yellow', duration: 10000 }
+  { color: "red", duration: 20000, twinkleDuration: 5000 },
+  { color: "green", duration: 20000, twinkleDuration: 5000 },
+  { color: "yellow", duration: 10000 },
 ];
 
 function App() {
@@ -180,7 +206,6 @@ function App() {
 }
 
 export default App;
-
 ```
 
 **useEffect 如下写各自代表什么**
@@ -209,33 +234,31 @@ function App() {
 // 10
 ```
 
-
-#### 将手机号中间4位变成* ,**用尽可能多的方式，将手机号中间4位变成***
+#### 将手机号中间 4 位变成\* ,**用尽可能多的方式，将手机号中间 4 位变成\***
 
 ```javascript
 const tel = 18877776666;
 let tel1 = "" + tel;
 
 // 方式1
-let arr = tel1.split("")
-arr.splice(3,4, "****")
-tel1 = arr.join("")
+let arr = tel1.split("");
+arr.splice(3, 4, "****");
+tel1 = arr.join("");
 console.log(tel1);
 
 // 方式2
-tel1 = tel1.substr(0, 3) + '****' + tel1.substr(7)
-console.log(tel1)
+tel1 = tel1.substr(0, 3) + "****" + tel1.substr(7);
+console.log(tel1);
 
 // 方式3
-tel1 = tel1.replace(tel1.substring(3, 7), '****')
-console.log(tel1)
+tel1 = tel1.replace(tel1.substring(3, 7), "****");
+console.log(tel1);
 
 // 方式4
-const reg = /(\d{3})\d{4}(\d{4})/
-tel1 = tel1.replace(reg, "$1****$2")
-console.log(tel1)
+const reg = /(\d{3})\d{4}(\d{4})/;
+tel1 = tel1.replace(reg, "$1****$2");
+console.log(tel1);
 ```
-
 
 #### 红绿灯
 
@@ -257,28 +280,27 @@ function yellow() {
 }
 ```
 
-
 ```javascript
 const task = (timer, light) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      if (light === 'red') {
-        red()
-      } else if (light === 'green') {
-        green()
-      } else if (light === 'yellow') {
-        yellow()
+      if (light === "red") {
+        red();
+      } else if (light === "green") {
+        green();
+      } else if (light === "yellow") {
+        yellow();
       }
-    }, timer)
-  })
-}
+    }, timer);
+  });
+};
 
 const step = () => {
-  task(1000, 'green')
-    .then(() => task(2000, 'yellow'))
-    .then(() => task(3000, 'red'))
-    .then(step)
-}
+  task(1000, "green")
+    .then(() => task(2000, "yellow"))
+    .then(() => task(3000, "red"))
+    .then(step);
+};
 ```
 
 ### 输出结果
@@ -304,7 +326,7 @@ console.log(4);
 **`1 2 4 timerStart timeEnd success`
 **
 
-**1.1上一的变种（resolve放到setTimeout外调用）：**
+**1.1 上一的变种（resolve 放到 setTimeout 外调用）：**
 
 ```javascript
 const promise = new Promise((resolve, reject) => {
@@ -323,82 +345,131 @@ console.log(4);
 
 `1 2 4 success timerStart`
 
-**1.2 解释为什么这么输出，并询问event loop**
+**1.2 解释为什么这么输出，并询问 event loop**
 
 ### 数据结构转换
 
-**将js对象转化为树形结构**
+**将 js 对象转化为树形结构**
 
 ```javascript
 source = [
   {
-    "id": 1,
-    "pid": 0,
-    "name": "body"
+    id: 1,
+    pid: 0,
+    name: "body",
   },
   {
-    "id": 2,
-    "pid": 1,
-    "name": "title"
-  },
-  {
-    "id": 3,
-    "pid": 2,
-    "name": "div"
-  }
-]
-
-tree = [{
-  id: 1,
-  pid: 0,
-  name: "body",
-  children: [{
-    id: 2, 
+    id: 2,
     pid: 1,
     name: "title",
-    children: [{
-      id: 3,
-      pid: 2,
-      name: "div"
-    }]
-  }]
-}]
-```
+  },
+  {
+    id: 3,
+    pid: 2,
+    name: "div",
+  },
+];
 
+tree = [
+  {
+    id: 1,
+    pid: 0,
+    name: "body",
+    children: [
+      {
+        id: 2,
+        pid: 1,
+        name: "title",
+        children: [
+          {
+            id: 3,
+            pid: 2,
+            name: "div",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+function buildTree(data) {
+  var tree = []; // 存放最终生成的树形数据
+
+  function findParentNode(parentId, nodes) {
+    for (var i = 0; i < nodes.length; i++) {
+      if (nodes[i].id === parentId) {
+        return nodes[i];
+      } else if (nodes[i].children && nodes[i].children.length > 0) {
+        var result = findParentNode(parentId, nodes[i].children);
+        if (result !== null) {
+          return result;
+        }
+      }
+    }
+
+    return null;
+  }
+
+  data.forEach((node) => {
+    node.children = []; // 初始化每个节点的子节点为空数组
+
+    var parentNode = findParentNode(node.parentId, tree);
+    if (parentNode) {
+      parentNode.children.push(node);
+    } else {
+      tree.push(node);
+    }
+  });
+
+  return tree;
+}
+
+// 测试数据
+var data = [
+  { id: "1", name: "节点1" },
+  { id: "2", name: "节点2", parentId: "1" },
+  { id: "3", name: "节点3", parentId: "1" },
+  { id: "4", name: "节点4", parentId: "2" },
+  { id: "5", name: "节点5", parentId: "2" },
+  { id: "6", name: "节点6", parentId: "3" },
+  { id: "7", name: "节点7", parentId: "3" },
+];
+
+console.log(buildTree(data));
+```
 
 ### 类型判断
 
-**1.如何通过es5判断是array还是object**
+**1.如何通过 es5 判断是 array 还是 object**
 
 ```javascript
-Object.prototype.toString.call([])
+Object.prototype.toString.call([]);
 // [object Array]
 
-Object.prototype.toString.call({})
+Object.prototype.toString.call({});
 // [object Object]
 
-Object.prototype.toString.call(new Date())
+Object.prototype.toString.call(new Date());
 // [object Date]
 
-Object.prototype.toString.call(() => {})
+Object.prototype.toString.call(() => {});
 // [object Function]
 
-Object.prototype.toString.call(NaN)
+Object.prototype.toString.call(NaN);
 // [object Number]
 
-Object.prototype.toString.call(1)
+Object.prototype.toString.call(1);
 // [object Number]
 
-Object.prototype.toString.call('1')
+Object.prototype.toString.call("1");
 // [object String]
 
-Object.prototype.toString.call(null)
+Object.prototype.toString.call(null);
 // [object Null]
 
-Object.prototype.toString.call(undefined)
+Object.prototype.toString.call(undefined);
 // [object Undefined]
 ```
-
 
 ### queryString 函数
 
@@ -412,12 +483,12 @@ https://www.antgroup.com?name=ant#/home?job=frontend&extraInfo=%7B%22a%22%3A%22b
 
 ```javascript
 function queryString(url) {
-  const params = new URLSearchParams(url.split('?')[1]);
+  const params = new URLSearchParams(url.split("?")[1]);
   const result = {};
 
   params.forEach((value, key) => {
     if (result[key]) {
-      if (typeof result[key] === 'string') {
+      if (typeof result[key] === "string") {
         result[key] = [result[key]];
       }
       result[key].push(value);
@@ -430,11 +501,10 @@ function queryString(url) {
 }
 
 // 测试
-const url = 'https://www.antgroup.com?name=ant#/home?job=frontend&extraInfo=%7B%22a%22%3A%22b%22%2C%22c%22%3A%22d%22%7D';
+const url =
+  "https://www.antgroup.com?name=ant#/home?job=frontend&extraInfo=%7B%22a%22%3A%22b%22%2C%22c%22%3A%22d%22%7D";
 console.log(queryString(url));
-
 ```
-
 
 **5.主要考察基本组件开发能力(P5)**
 
@@ -482,61 +552,60 @@ export default UncontrolledInput;
 
 ```
 
-**实现一个useDebounce hook，使用场景：上述受控input组件，在停止输入500ms后，根据value进行search。具体使用方式如下：**
+**实现一个 useDebounce hook，使用场景：上述受控 input 组件，在停止输入 500ms 后，根据 value 进行 search。具体使用方式如下：**
 
 ```javascript
-const debouncedValue = debouncedValue(inputValue, 500)
+const debouncedValue = debouncedValue(inputValue, 500);
 useEffect(() => {
   // do search function
-}, [debouncedValue])
+}, [debouncedValue]);
 ```
 
 ```javascript
 export default function useDebounce<T>(value: T, delay?: number): T {
-  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+  const [debouncedValue, setDebouncedValue] = useState < T > value;
 
   useEffect(() => {
-    const timer = setTimeout(() => setDebouncedValue(value), delay || 500)
+    const timer = setTimeout(() => setDebouncedValue(value), delay || 500);
 
     return () => {
-      clearTimeout(timer)
-    }
-  }, [value, delay])
+      clearTimeout(timer);
+    };
+  }, [value, delay]);
 
-  return debouncedValue
+  return debouncedValue;
 }
-
 ```
-
 
 ### 弹窗组件
 
-**用react实现一个弹窗组件可以通过Modal.show() 、Modal.hide()方式控制弹窗组件的显示隐层，并能挂载到body下面**
+**用 react 实现一个弹窗组件可以通过 Modal.show() 、Modal.hide()方式控制弹窗组件的显示隐层，并能挂载到 body 下面**
 
 ```javascript
 const ModalComponent = () => {}; // ModalComponent具体实现不重要，主要考察Modal
 
 const Modal = (Component) => {
-  const container = document.createElement('div')
+  const container = document.createElement("div");
   const hide = function () {
-    ReactDOM.unmountComponentAtNode(container)
-    document.body.removeChild(container)
-  }
+    ReactDOM.unmountComponentAtNode(container);
+    document.body.removeChild(container);
+  };
   const show = function (props) {
-    document.body.appendChild(container)
-    ReactDOM.render(ReactDOM.createPortal(<Component {...props} hide={hide} />, container), container)
-  }
+    document.body.appendChild(container);
+    ReactDOM.render(
+      ReactDOM.createPortal(<Component {...props} hide={hide} />, container),
+      container
+    );
+  };
 
   return {
     show,
-    hide
-  }
-}
+    hide,
+  };
+};
 
 export default Modal(ModalComponent);
 ```
-
-
 
 ### flex 布局
 
@@ -544,20 +613,18 @@ export default Modal(ModalComponent);
 flex: 0 1 auto; 各自代表的意思？
 参考答案：
 flex属性是flex-grow，flex-shrink和flex-basis的简写
-flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。 
- flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。 
+flex-grow属性定义项目的放大比例，默认为0，即如果存在剩余空间，也不放大。
+ flex-shrink属性定义了项目的缩小比例，默认为1，即如果空间不足，该项目将缩小。
  flex-basis属性定义了在分配多余空间之前，项目占据的主轴空间。浏览器根据这个属性，计算主轴是否有多余空间。它的默认值为auto，即项目的本来大小
 ```
 
-
-
-6.**用react 实现一个input组件能将输入包含 逗号(半角,全角)、空格、 换行符分隔的字符串转换为数组进行onChange输出， 输入框内展示为以半角逗号分隔的字符串。**请考虑用户体验， 不能影响用户输入****
+6.**用 react 实现一个 input 组件能将输入包含 逗号(半角,全角)、空格、 换行符分隔的字符串转换为数组进行 onChange 输出， 输入框内展示为以半角逗号分隔的字符串。**请考虑用户体验， 不能影响用户输入\*\*\*\*
 
 ```javascript
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 function Input() {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
   const [outputValue, setOutputValue] = useState([]);
 
   const handleInputChange = (event) => {
@@ -569,10 +636,10 @@ function Input() {
   };
 
   const parseInputValue = (value) => {
-    const separators = [',', '，', ' ', '\n'];
+    const separators = [",", "，", " ", "\n"];
     const parsedValue = value
-      .split(new RegExp(separators.join('|')))
-      .filter((val) => val !== '')
+      .split(new RegExp(separators.join("|")))
+      .filter((val) => val !== "")
       .map((val) => val.trim());
 
     return parsedValue;
@@ -581,13 +648,12 @@ function Input() {
   return (
     <div>
       <textarea value={inputValue} onChange={handleInputChange} rows={3} />
-      <div>Output: {outputValue.join(', ')}</div>
+      <div>Output: {outputValue.join(", ")}</div>
     </div>
   );
 }
 
 export default Input;
-
 ```
 
 7.**编写一个函数，判断一个字符串是否为回文字符串（正着读和倒着读都一样），例如 "racecar" 就是一个回文字符串。**
@@ -652,11 +718,11 @@ function hasDuplicateChars(string) {
 }
 
 // 测试
-console.log(hasDuplicateChars("abcdefg"));  // false
-console.log(hasDuplicateChars("abcdeafg"));  // true
+console.log(hasDuplicateChars("abcdefg")); // false
+console.log(hasDuplicateChars("abcdeafg")); // true
 ```
 
-1. **实现一个函数，输入一个数组和一个数字target，找出数组中两个数的和等于target，并返回这两个数的下标。**
+1. **实现一个函数，输入一个数组和一个数字 target，找出数组中两个数的和等于 target，并返回这两个数的下标。**
 
 ```JavaScript
 function findTwoSum(nums, target) {
@@ -695,11 +761,11 @@ console.log(reverseWords("I love JavaScript"));  // "JavaScript love I"
 ```javascript
 function isPalindrome(str) {
   // 将字符串转换为小写，并去除非字母和数字的字符
-  const formattedStr = str.toLowerCase().replace(/[^a-z0-9]/g, '');
-  
+  const formattedStr = str.toLowerCase().replace(/[^a-z0-9]/g, "");
+
   let left = 0;
   let right = formattedStr.length - 1;
-  
+
   while (left < right) {
     if (formattedStr[left] !== formattedStr[right]) {
       return false;
@@ -707,14 +773,13 @@ function isPalindrome(str) {
     left++;
     right--;
   }
-  
+
   return true;
 }
 
 // 测试
-console.log(isPalindrome("A man, a plan, a canal: Panama"));  // true
-console.log(isPalindrome("race a car"));  // false
-
+console.log(isPalindrome("A man, a plan, a canal: Panama")); // true
+console.log(isPalindrome("race a car")); // false
 ```
 
 1. **实现一个函数，输入一个数组，将数组中的所有元素按照奇偶性分组。奇数排在偶数的前面，原数组中的相对位置不变。**
@@ -792,7 +857,7 @@ console.log(firstUniqueChar("aabbcc"));  // ""
 
 ```
 
-1. **实现一个函数，输入一个字符串，将字符串中的所有数字序列加1，并返回新的字符串。例如："1a2b3c" => "2a3b4c"。**
+1. **实现一个函数，输入一个字符串，将字符串中的所有数字序列加 1，并返回新的字符串。例如："1a2b3c" => "2a3b4c"。**
 
 ```JavaScript
 function incrementNumberSequence(str) {
@@ -835,7 +900,7 @@ console.log(binarySearch([1, 3, 5, 7, 9], 10));  // -1
 
 ```
 
-1. **实现一个函数，输入一个字符串和一个模式串，判断字符串是否匹配模式串。其中模式串中可以包含"."和"** *"两个特殊字符，"."可以匹配任意一个字符，"* **"可以匹配任意多个字符（包括0个字符）**
+1. **实现一个函数，输入一个字符串和一个模式串，判断字符串是否匹配模式串。其中模式串中可以包含"."和"** _"两个特殊字符，"."可以匹配任意一个字符，"_ **"可以匹配任意多个字符（包括 0 个字符）**
 
 ```JavaScript
 function isMatch(str, pattern) {
