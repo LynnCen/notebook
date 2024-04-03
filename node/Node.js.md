@@ -20,6 +20,7 @@ chmod u+x app.js
 
 ### `ctrl-C`
 
+
 在控制台运行程序时，我们可以通过`ctrl-C`来关闭，如果程序的退出则需要使用下面的命令
 
 ### `process.exit()`
