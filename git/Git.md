@@ -40,6 +40,8 @@ git commit -m '' 提交信息
 撤销commit
 git reset --soft HEAD^
 
+git push --set-upstream origin bugfix-20240411
+
 github 贡献值不显示问题：
 提交必须使用与github账号关联的电子邮箱地址
 ` git config user.email`
