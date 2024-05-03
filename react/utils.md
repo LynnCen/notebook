@@ -178,6 +178,7 @@ export function debounce<F extends (...args: any[]) => any>(func: F, delay: numb
   let timeoutId: ReturnType<typeof setTimeout>;
 
   return function (this: ThisParameterType<F>, ...args: Parameters<F>) {
+  var a = 'ss'
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
